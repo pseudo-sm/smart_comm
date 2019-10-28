@@ -37,5 +37,5 @@ def similar(request):
     sim_imgs = list(model.m(img_id))
     for i,img in enumerate(sim_imgs):
         sim_imgs[i] = "static"+img[9:]
-    print(sim_imgs)
     return JsonResponse({"data":sim_imgs},safe=False,content_type='json/application')
+
