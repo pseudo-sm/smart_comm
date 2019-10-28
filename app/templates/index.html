@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+    .card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.7;
+}
+</style>
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <table>
+        <div class="similars">
+
+        </div>
+        <div class="product-list">
+        {% for item in context %}
+            <div class="card">
+          <img src="{% static item.img %}" style="width:100%">
+          <h1>{{item.product}}</h1>
+          <p class="price">{{item.brand}}</p>
+          <p><button class="view" id="{{item.id}}" >View</button></p>
+        </div>
+        {% endfor %}
+        </div>
+        <script>
+            $(".view").click(function() {
+                id = $(this).attr('id');
+                $.ajax({
+                  type: "GET",
+                  url: "view/",
+                  data: {"id":id},
+                  success: function(data){
+                  data = data["data"];
+                  $(".product-list").hide();
+                    for(i=0;i<data.length;i++){
+                      $(".similars").append('<img src="'+data[i]+'" style="width:100%"><br>');
+
+                     }
+                  }
+                });
+            });
+        </script>
+
+    </table>
+</body>
+</html>
